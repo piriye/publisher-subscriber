@@ -1,0 +1,58 @@
+version: '3.9'
+services:
+    php:
+        build:
+            context: .
+            dockerfile: image/php/Dockerfile
+        ports:
+            - 9000
+        volumes:
+            - ./src:/var/www/html
+        networks:
+            - main_network
+
+    node:
+        build:
+            context: .
+            dockerfile: image/node/Dockerfile
+        ports:
+            - 4020
+        labels:
+            kompose.service.type: NodePort
+        env_file: ./node-src/.env
+        volumes:
+            - ./node-src:/home/pangaea-node-subscriber
+        networks:
+            - main_network
+
+    nginx:
+        build: image/nginx
+        ports:
+            - 8000:80
+        networks:
+            - main_network
+
+    mysql:
+        image: mysql:5.7
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_PASSWORD: "pangaea"
+            MYSQL_USER: "pangaea"
+            MYSQL_DATABASE: "pangaea"
+        ports:
+            - 3306
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+        networks:
+            - main_network
+
+    redis:
+        image: redis
+        ports:
+            - 6379
+        networks:
+            - main_network
+
+networks:
+    main_network:
+        driver: bridge
