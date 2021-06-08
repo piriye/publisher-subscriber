@@ -26,22 +26,22 @@ class SubscriptionService
             $subscriber = $this->subscriber->create([ 'url' => $url ]);
         }
 
-        $topic = $this->topic->where('title', $topic)->first();
+        $topicModel = $this->topic->where('title', $topic)->first();
 
-        if (empty($topic)) {
-            throw new ModelNotFoundException('Topic does not exist');
+        if (empty($topicModel)) {
+            $topicModel = $this->topic->create(['title' => $topic]);
         }
 
-        $topicSubscriberEntry = $topic->subscribers()->wherePivot('subscriber_id',
+        $topicSubscriberEntry = $topicModel->subscribers()->wherePivot('subscriber_id',
             $subscriber->id)->get();
 
         if (count($topicSubscriberEntry) == 0) {
-            $topic->subscribers()->attach($subscriber->id);
+            $topicModel->subscribers()->attach($subscriber->id);
         }
 
         return [
             'url'   => $url,
-            'topic' => $topic->title,
+            'topic' => $topicModel->title,
         ];
     }
 }
