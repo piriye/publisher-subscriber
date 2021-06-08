@@ -1,6 +1,7 @@
 const TYPES = {
   // controllers
   HealthController: Symbol('HealthController'),
+  ReceiverController: Symbol('ReceiverController'),
 
   // service
 

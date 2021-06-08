@@ -6,7 +6,7 @@ import { injectable } from 'inversify';
 export abstract class BaseController {
   constructor() {}
 
-  protected async validateRequest(requestBody: any, validationSchema: Joi.Schema) {
+  protected validateRequest(requestBody: any, validationSchema: Joi.Schema) {
     const error = validationSchema.validate(requestBody);
 
     if (error.error) {
@@ -14,7 +14,7 @@ export abstract class BaseController {
     }
   }
 
-  protected async success(res: Response, data: any = [], message: string = '', httpStatus: number = 200) {
+  protected success(res: Response, data: any = [], message: string = '', httpStatus: number = 200) {
     return res.status(httpStatus).send({
       status: 'success',
       message: message,
@@ -22,7 +22,7 @@ export abstract class BaseController {
     });
   }
 
-  protected async error(res: Response, code: string, message: string, httpStatus: number = 400) {
+  protected error(res: Response, code: string, message: string, httpStatus: number = 400) {
     return res.status(httpStatus).send({
       status: 'error',
       code: code,
