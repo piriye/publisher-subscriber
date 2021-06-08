@@ -63,6 +63,7 @@ class PublishToTopic implements ShouldQueue
                 // TODO: add error handling for failed requests
                 Log::info('Published message to subscriber ' . $url);
             } catch (Exception $exception) {
+                Log::error('Unable to publish message to subscriber ' . $url);
             }
         }
     }
