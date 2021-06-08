@@ -59,7 +59,7 @@ class PublishToTopic implements ShouldQueue
 
             try {
                 RequestHelper::post($url, $processedData);
-                
+
                 // TODO: add error handling for failed requests
                 Log::info('Published message to subscriber ' . $url);
             } catch (Exception $exception) {

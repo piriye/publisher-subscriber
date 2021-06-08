@@ -16,7 +16,7 @@ services:
             context: .
             dockerfile: image/node/Dockerfile
         ports:
-            - 4020
+            - 7000:4020
         labels:
             kompose.service.type: NodePort
         env_file: ./node-src/.env
